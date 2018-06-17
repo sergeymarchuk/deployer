@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">{{ ucfirst(config('app.name')) }} - Login</div>
+                <div class="panel-heading">{{ @trans('global.global_title') }} - Login</div>
                 <div class="panel-body">
                     
                     @if (count($errors) > 0)
