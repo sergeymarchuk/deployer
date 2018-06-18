@@ -32,7 +32,7 @@ class RemoteArtisan
                 $options .= " $value";
             } else {
                 $value = ($value !== true ? "=$value" : '');
-                $options .= " {$name}{$value}";
+                $options .= " {$name}";
             }
         }
 
