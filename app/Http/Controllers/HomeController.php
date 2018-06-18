@@ -41,18 +41,19 @@ class HomeController extends Controller
         $commands = [
             'git-pull' => 'git pull',
             'composer-install' => 'composer install',
-            'artisan-migrate' => 'php /home/svystun/www/stage.cf15.pro/artisan migrate --force'
+            'artisan-migrate' => '/usr/bin/php /home/svystun/www/stage.cf15.pro/artisan migrate --force'
         ];
 
-        echo RemoteArtisan::call('/home/svystun/www/stage.cf15.pro/', 'migrate', ['--force' => true]);
-//        $process = new Process('cd /home/svystun/www/stage.cf15.pro && ' . $commands[$action]);
-//
-//        try {
-//            $process->mustRun();
-//            echo $process->getOutput();
-//        } catch (ProcessFailedException $exception) {
-//            echo $exception->getMessage();
-//        }
+        //echo RemoteArtisan::call('/home/svystun/www/stage.cf15.pro/', 'migrate', ['--force' => true]);
+
+        $process = new Process('cd /home/svystun/www/stage.cf15.pro && ' . $commands[$action]);
+
+        try {
+            $process->mustRun();
+            echo $process->getOutput();
+        } catch (ProcessFailedException $exception) {
+            echo $exception->getMessage();
+        }
 
         return response()->json(['df' => mt_rand(1000, 1000000)]);
     }
