@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-    <h3 class="page-title">Deployment of project</h3>
+    <h3 class="page-title">Deployment for project: <a href="http://stage.cf15.pro" target="_blank">http://stage.CF15.pro</a></h3>
 
     @if(session('success'))
         <!-- If password successfully show message -->
@@ -14,7 +14,7 @@
         <!-- If no success message in flash session show change password form  -->
         <p>
             {!! Form::button(trans('global.app_deploy'), ['class' => 'btn btn-danger deploy-start']) !!}
-            {!! Form::button('Clear', ['class' => 'btn btn-primary deploy-clear']) !!}
+            &nbsp;&nbsp;&nbsp;&nbsp;{!! Form::button('Clear', ['class' => 'btn btn-primary deploy-clear']) !!}
         </p>
         <div class="panel panel-default">
             <div class="panel-heading">Deployment steps:</div>
@@ -64,7 +64,7 @@
 
         <p>
             {!! Form::button(trans('global.app_deploy'), ['class' => 'btn btn-danger deploy-start']) !!}
-            {!! Form::button('Clear', ['class' => 'btn btn-primary deploy-clear']) !!}
+            &nbsp;&nbsp;&nbsp;&nbsp;{!! Form::button('Clear', ['class' => 'btn btn-primary deploy-clear']) !!}
         </p>
         {!! Form::close() !!}
     @endif
