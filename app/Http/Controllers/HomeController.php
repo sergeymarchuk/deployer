@@ -36,12 +36,12 @@ class HomeController extends Controller
      * @param string $action
      * @return mixed|string
      */
-    public function exec(string $action)
+    public function runAction(string $action)
     {
-        $path = '/home/svystun/www/stage.cf15.pro';
+        $projectPath = '/home/svystun/www/stage.cf15.pro';
 
         if ($action == 'artisan-migrate') {
-            return RemoteArtisan::call($path, 'migrate', ['--force' => true]);
+            return RemoteArtisan::call($projectPath, 'migrate', ['--force' => true]);
         }
 
         $commands = [
@@ -49,7 +49,8 @@ class HomeController extends Controller
             'composer-install' => 'composer install'
         ];
 
-        $process = new Process('cd '. $path .' && ' . $commands[$action]);
+        // Run process
+        $process = new Process($commands[$action], $projectPath);
 
         try {
             $process->mustRun();
@@ -57,13 +58,5 @@ class HomeController extends Controller
         } catch (ProcessFailedException $exception) {
             return $exception->getMessage();
         }
-    }
-
-    /**
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function artisanMigrate()
-    {
-        return view('home');
     }
 }
