@@ -42,12 +42,8 @@ class HomeController extends Controller
         $project['path'] = '/home/svystun/www/stage.cf15.pro';
 
         if ($action == 'artisan-migrate') {
-            try {
-                $process = new RemoteArtisan($project['path'], 'migrate', ['--force' => true]);
-                return $process->run();
-            } catch (ProcessFailedException $exception) {
-                return $exception->getMessage();
-            }
+            $process = new RemoteArtisan($project['path'], 'migrate', ['--force' => true]);
+            return $this->getResponse($process);
         }
 
         $commands = [
@@ -58,11 +54,33 @@ class HomeController extends Controller
         // Run process
         $process = new Process($commands[$action], $project['path']);
 
+        return $this->getResponse($process);
+    }
+
+    /**
+     * @param $process
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function getResponse($process)
+    {
         try {
-            $process->mustRun();
-            return $process->getOutput();
+            $text = ($process instanceof Process) ? $process->mustRun()->getOutput() : $process->run();
+            return $this->jsonResponse($text, 'ok');
         } catch (ProcessFailedException $exception) {
-            return $exception->getMessage();
+            return $this->jsonResponse($exception->getMessage(), 'error');
         }
+    }
+
+    /**
+     * @param string $message
+     * @param string $status
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function jsonResponse(string $message, string $status) {
+        return response()->jsonp('checkAndRun', [
+            'status' => $status,
+            'message' => $message,
+            'callback' => request('callback', '')
+        ]);
     }
 }
