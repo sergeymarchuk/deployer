@@ -2,6 +2,10 @@ $(document).ready(function() {
     $(".deploy-start").on('click', function() {
         // Disable deploy buttons
         $(".deploy-start").attr("disabled", true);
+        // Clear fields
+        $('#gitPull').val('').attr('rows', 1);
+        $('#composerInstall').val('').attr('rows', 1);
+        $('#artisanMigrate').val('').attr('rows', 1);
         checkAndRun({'status': 'ok', 'message': '', 'next': 'gitPull', 'prev': null});
     });
 });
