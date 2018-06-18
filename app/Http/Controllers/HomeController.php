@@ -34,31 +34,29 @@ class HomeController extends Controller
 
     /**
      * @param string $action
-     * @return \Illuminate\Http\JsonResponse
+     * @return mixed|string
      */
     public function exec(string $action)
     {
         $path = '/home/svystun/www/stage.cf15.pro';
+
+        if ($action == 'artisan-migrate') {
+            return RemoteArtisan::call($path, 'migrate', ['--force' => true]);
+        }
 
         $commands = [
             'git-pull' => 'git pull',
             'composer-install' => 'composer install'
         ];
 
-        if ($action == 'artisan-migrate') {
-            return RemoteArtisan::call($path, 'migrate', ['--force' => true]);
+        $process = new Process('cd '. $path .' && ' . $commands[$action]);
+
+        try {
+            $process->mustRun();
+            return $process->getOutput();
+        } catch (ProcessFailedException $exception) {
+            return $exception->getMessage();
         }
-
-//        $process = new Process('cd /home/svystun/www/stage.cf15.pro && ' . $commands[$action]);
-//
-//        try {
-//            $process->mustRun();
-//            echo $process->getOutput();
-//        } catch (ProcessFailedException $exception) {
-//            echo $exception->getMessage();
-//        }
-
-        return response()->json(['df' => mt_rand(1000, 1000000)]);
     }
 
     /**
