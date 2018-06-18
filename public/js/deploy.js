@@ -1,52 +1,27 @@
 $(document).ready(function() {
     $(".deploy-start").on('click', function() {
-        checkAndRun({'status': 'OK', 'nextFunc': 'gitPull'});
+        checkAndRun({'status': 'OK', 'callback': 'gitPull'});
     });
 });
 
+// Construct the script tag at Runtime
+function remoteRequest(url) {
+    let head = document.head;
+    let script = document.createElement("script");
+    script.setAttribute("src", '/admin/deploy/' + url);
+    head.appendChild(script);
+    head.removeChild(script);
+}
+
 function checkAndRun(data) {
     if (data.status === 'OK') {
-        switch (data.nextFunc) {
-            case "gitPull": gitPull(); break;
-            case "composerInstall": composerInstall(); break;
-            case "artisanMigrate": artisanMigrate(); break;
-            case "finishDeploy": finishDeploy(); break;
+        switch (data.callback) {
+            case "gitPull": remoteRequest("git-pull?callback=composerInstall"); break;
+            case "composerInstall": remoteRequest("composer-install?callback=artisanMigrate"); break;
+            case "artisanMigrate": remoteRequest("artisan-migrate?callback=finishDeploy"); break;
+            case "finishDeploy": console.log('Finish!!!'); break;
         }
     } else {
-
+        console.log('Error!!!');
     }
-}
-
-function gitPull() {
-    $.ajax({
-        url: '/deploy/git-pull',
-        success: checkAndRun,
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert("Error git-pull");
-        }
-    });
-}
-
-function composerInstall() {
-    $.ajax({
-        url: '/deploy/composer-install',
-        success: checkAndRun,
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert("Error composer install");
-        }
-    });
-}
-
-function artisanMigrate() {
-    $.ajax({
-        url: '/deploy/artisan-migrate',
-        success: checkAndRun,
-        error: function(jqXHR, textStatus, errorThrown) {
-            alert("Error Artisan Migrate");
-        }
-    });
-}
-
-function finishDeploy() {
-    console.log('Finish!!!');
 }
