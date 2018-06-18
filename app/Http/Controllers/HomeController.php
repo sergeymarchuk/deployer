@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Http\Requests;
-use App\RemoteArtisan;
+use App\Service\RemoteArtisan;
 use Illuminate\Http\Request;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
@@ -38,10 +38,16 @@ class HomeController extends Controller
      */
     public function runAction(string $action)
     {
-        $projectPath = '/home/svystun/www/stage.cf15.pro';
+        //TODO: Implement functionality: Get project by id
+        $project['path'] = '/home/svystun/www/stage.cf15.pro';
 
         if ($action == 'artisan-migrate') {
-            return RemoteArtisan::call($projectPath, 'migrate', ['--force' => true]);
+            try {
+                $process = new RemoteArtisan($project['path'], 'migrate', ['--force' => true]);
+                return $process->run();
+            } catch (ProcessFailedException $exception) {
+                return $exception->getMessage();
+            }
         }
 
         $commands = [
@@ -50,7 +56,7 @@ class HomeController extends Controller
         ];
 
         // Run process
-        $process = new Process($commands[$action], $projectPath);
+        $process = new Process($commands[$action], $project['path']);
 
         try {
             $process->mustRun();
