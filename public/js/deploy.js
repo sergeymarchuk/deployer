@@ -18,7 +18,8 @@ function remoteRequest(url) {
 function checkAndRun(data) {
     if (data.status === 'ok') {
         if (data.prev) {
-            $('#' + data.prev).val(data.message);
+            lines = data.message.split('\n');
+            $('#' + data.prev).val(data.message).attr('rows', lines.length);
         }
         $('#' + data.next).attr('placeholder', 'Waiting for result...');
         switch (data.next) {
