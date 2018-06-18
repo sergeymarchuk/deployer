@@ -26,13 +26,12 @@ class RemoteArtisan
         // Prepare parameters for appending
         $options = '';
         foreach ($parameters as $name => $value) {
-            $value = '"'.$value.'"';
 
             if (is_int($name)) {
                 $options .= " $value";
             } else {
-                $value = ($value !== true ? "=$value" : '');
-                $options .= " {$name}";
+                $value = $value === true ? '' : '="'.$value.'"';
+                $options .= " {$name}{$value}";
             }
         }
 
