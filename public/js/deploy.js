@@ -19,7 +19,7 @@ function checkAndRun(data) {
     if (data.status === 'ok') {
         if (data.prev) {
             lines = data.message.split('\n');
-            $('#' + data.prev).val(data.message).attr('rows', lines.length);
+            $('#' + data.prev).val(data.message).attr('rows', lines.length-1);
         }
         $('#' + data.next).attr('placeholder', 'Waiting for result...');
         switch (data.next) {
