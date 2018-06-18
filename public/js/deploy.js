@@ -1,6 +1,6 @@
 $(document).ready(function() {
     $(".deploy-start").on('click', function() {
-        checkAndRun({'status': 'OK', 'callback': 'gitPull'});
+        checkAndRun({'status': 'ok', 'callback': 'gitPull'});
     });
 });
 
