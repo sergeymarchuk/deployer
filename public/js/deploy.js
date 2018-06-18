@@ -14,7 +14,7 @@ function remoteRequest(url) {
 }
 
 function checkAndRun(data) {
-    if (data.status === 'OK') {
+    if (data.status === 'ok') {
         switch (data.callback) {
             case "gitPull": remoteRequest("git-pull?callback=composerInstall"); break;
             case "composerInstall": remoteRequest("composer-install?callback=artisanMigrate"); break;
