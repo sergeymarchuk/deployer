@@ -12,7 +12,10 @@
     @else
         {!! Form::open(['method' => 'POST', 'route' => ['auth.change_password']]) !!}
         <!-- If no success message in flash session show change password form  -->
-        <p>{!! Form::button(trans('global.app_deploy'), ['class' => 'btn btn-danger deploy-start']) !!}</p>
+        <p>
+            {!! Form::button(trans('global.app_deploy'), ['class' => 'btn btn-danger deploy-start']) !!}
+            {!! Form::button('Clear', ['class' => 'btn btn-primary deploy-clear']) !!}
+        </p>
         <div class="panel panel-default">
             <div class="panel-heading">Deployment steps:</div>
             <div class="panel-body">
@@ -59,7 +62,10 @@
             </div>
         </div>
 
-        {!! Form::button(trans('global.app_deploy'), ['class' => 'btn btn-danger deploy-start']) !!}
+        <p>
+            {!! Form::button(trans('global.app_deploy'), ['class' => 'btn btn-danger deploy-start']) !!}
+            {!! Form::button('Clear', ['class' => 'btn btn-primary deploy-clear']) !!}
+        </p>
         {!! Form::close() !!}
     @endif
 @stop

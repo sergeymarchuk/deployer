@@ -2,12 +2,17 @@ $(document).ready(function() {
     $(".deploy-start").on('click', function() {
         // Disable deploy buttons
         $(".deploy-start").attr("disabled", true);
-        // Clear fields
-        $('#gitPull').val('').attr('rows', 1);
-        $('#composerInstall').val('').attr('rows', 1);
-        $('#artisanMigrate').val('').attr('rows', 1);
+        $(".deploy-clear").click();
         checkAndRun({'status': 'ok', 'message': '', 'next': 'gitPull', 'prev': null});
     });
+
+    // Clear fields
+    $(".deploy-clear").on('click', function() {
+        $('#gitPull').val('').attr('placeholder', '').attr('rows', 1);
+        $('#composerInstall').val('').attr('placeholder', '').attr('rows', 1);
+        $('#artisanMigrate').val('').attr('placeholder', '').attr('rows', 1);
+    });
+
 });
 
 // Construct the script tag at Runtime
