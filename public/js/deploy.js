@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $(".deploy-start").on('click', function() {
         // Disable deploy buttons
+        $(".deploy-start").attr("disabled", true);
         checkAndRun({'status': 'ok', 'message': '', 'next': 'gitPull', 'prev': null});
     });
 });
@@ -24,7 +25,7 @@ function checkAndRun(data) {
             case "gitPull": remoteRequest("git-pull?next=composerInstall&prev=gitPull"); break;
             case "composerInstall": remoteRequest("composer-install?next=artisanMigrate&prev=composerInstall"); break;
             case "artisanMigrate": remoteRequest("artisan-migrate?next=finishDeploy&prev=artisanMigrate"); break;
-            case "finishDeploy": console.log('Finish!!!'); break;
+            case "finishDeploy": $('.deploy-start').removeAttr("disabled"); break;
         }
     } else {
         console.log('Error!!!');
