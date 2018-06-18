@@ -38,14 +38,15 @@ class HomeController extends Controller
      */
     public function exec(string $action)
     {
+        $path = '/home/svystun/www/stage.cf15.pro';
+
         $commands = [
             'git-pull' => 'git pull',
-            'composer-install' => 'composer install',
-            'artisan-migrate' => '/home/svystun/www/stage.cf15.pro'
+            'composer-install' => 'composer install'
         ];
 
         if ($action == 'artisan-migrate') {
-            echo RemoteArtisan::call($commands[$action], 'migrate', ['--force' => true]);
+            return RemoteArtisan::call($path, 'migrate', ['--force' => true]);
         }
 
 //        $process = new Process('cd /home/svystun/www/stage.cf15.pro && ' . $commands[$action]);
