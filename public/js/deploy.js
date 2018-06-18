@@ -1,6 +1,7 @@
 $(document).ready(function() {
     $(".deploy-start").on('click', function() {
-        checkAndRun({'status': 'ok', 'callback': 'gitPull'});
+        // Disable deploy buttons
+        checkAndRun({'status': 'ok', 'message': '', 'next': 'gitPull', 'prev': null});
     });
 });
 
@@ -15,10 +16,14 @@ function remoteRequest(url) {
 
 function checkAndRun(data) {
     if (data.status === 'ok') {
-        switch (data.callback) {
-            case "gitPull": remoteRequest("git-pull?callback=composerInstall"); break;
-            case "composerInstall": remoteRequest("composer-install?callback=artisanMigrate"); break;
-            case "artisanMigrate": remoteRequest("artisan-migrate?callback=finishDeploy"); break;
+        if (data.prev) {
+            $('#' + data.prev).val(data.message);
+        }
+        $('#' + data.next).attr('placeholder', 'Waiting for result...');
+        switch (data.next) {
+            case "gitPull": remoteRequest("git-pull?next=composerInstall&prev=gitPull"); break;
+            case "composerInstall": remoteRequest("composer-install?next=artisanMigrate&prev=composerInstall"); break;
+            case "artisanMigrate": remoteRequest("artisan-migrate?next=finishDeploy&prev=artisanMigrate"); break;
             case "finishDeploy": console.log('Finish!!!'); break;
         }
     } else {
