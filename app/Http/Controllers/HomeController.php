@@ -46,7 +46,7 @@ class HomeController extends Controller
 
         //echo RemoteArtisan::call('/home/svystun/www/stage.cf15.pro/', 'migrate', ['--force' => true]);
 
-        $process = new Process('cd /home/svystun/www/stage.cf15.pro && ' . $commands[$action]);
+        $process = new Process($commands[$action]);
 
         try {
             $process->mustRun();
