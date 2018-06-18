@@ -80,7 +80,8 @@ class HomeController extends Controller
         return response()->jsonp('checkAndRun', [
             'status' => $status,
             'message' => $message,
-            'callback' => request('callback', '')
+            'next' => request('next', ''),
+            'prev' => request('prev', '')
         ]);
     }
 }
