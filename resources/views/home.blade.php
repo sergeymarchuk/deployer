@@ -20,7 +20,7 @@
                 <div class="row">
                     <div class="col-xs-12 form-group">
                         {!! Form::label('update-codebase', 'Step 1: Update codebase (command: git pull)', ['class' => 'control-label']) !!}
-                        {!! Form::textarea('update-codebase', 'Waiting for result...', ['class' => 'form-control', 'placeholder' => '']) !!}
+                        <!-- {!! Form::textarea('update-codebase', 'Waiting for result...', ['class' => 'form-control', 'placeholder' => '']) !!} -->
                         <p class="help-block"></p>
                         @if($errors->has('current_password'))
                             <p class="help-block">
@@ -33,7 +33,7 @@
                 <div class="row">
                     <div class="col-xs-12 form-group">
                         {!! Form::label('update-packages', 'Step 2: Update packages (command: composer install)', ['class' => 'control-label']) !!}
-                        {!! Form::textarea('update-packages', 'Waiting for result...', ['class' => 'form-control', 'placeholder' => '']) !!}
+                        <!-- {!! Form::textarea('update-packages', 'Waiting for result...', ['class' => 'form-control', 'placeholder' => '']) !!} -->
                         <p class="help-block"></p>
                         @if($errors->has('new_password'))
                             <p class="help-block">
@@ -46,7 +46,7 @@
                 <div class="row">
                     <div class="col-xs-12 form-group">
                         {!! Form::label('update-database', 'Step 3: Update database structure (command: php artisan migrate)', ['class' => 'control-label']) !!}
-                        {!! Form::textarea('update-database', 'Waiting for result...', ['class' => 'form-control', 'placeholder' => '']) !!}
+                        <!-- {!! Form::textarea('update-database', 'Waiting for result...', ['class' => 'form-control', 'placeholder' => '']) !!} -->
                         <p class="help-block"></p>
                         @if($errors->has('new_password_confirmation'))
                             <p class="help-block">
