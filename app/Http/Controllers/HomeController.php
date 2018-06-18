@@ -40,7 +40,7 @@ class HomeController extends Controller
         $commands = [
             'git-pull' => 'git pull',
             'composer-install' => 'composer install',
-            'artisan-migrate' => 'artisan migrate --force'
+            'artisan-migrate' => '/home/svystun/www/stage.cf15.pro/artisan migrate --force'
         ];
 
         $process = new Process('cd /home/svystun/www/stage.cf15.pro && ' . $commands[$action]);
