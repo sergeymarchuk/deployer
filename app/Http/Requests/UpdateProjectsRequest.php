@@ -1,9 +1,12 @@
-<?php
-namespace App\Http\Requests\Admin;
+<?php namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUsersRequest extends FormRequest
+/**
+ * Class UpdateProjectsRequest
+ * @package App\Http\Requests
+ */
+class UpdateProjectsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +26,8 @@ class UpdateUsersRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$this->route('user'),
-            'roles' => 'required',
+            'client_id' => 'required',
+            'project_status_id' => 'required',
         ];
     }
 }

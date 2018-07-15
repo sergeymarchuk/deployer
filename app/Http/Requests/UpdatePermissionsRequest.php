@@ -1,8 +1,11 @@
-<?php
-namespace App\Http\Requests\Admin;
+<?php namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class UpdatePermissionsRequest
+ * @package App\Http\Requests
+ */
 class UpdatePermissionsRequest extends FormRequest
 {
     /**
