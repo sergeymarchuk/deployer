@@ -31,7 +31,7 @@
                 <ul class="treeview-menu">
 
                     <li class="{{ $request->segment(2) == 'permissions' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.permissions.index') }}">
+                        <a href="{{ route('permissions.index') }}">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
                                 @lang('global.permissions.title')
@@ -39,7 +39,7 @@
                         </a>
                     </li>
                     <li class="{{ $request->segment(2) == 'roles' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.roles.index') }}">
+                        <a href="{{ route('roles.index') }}">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
                                 @lang('global.roles.title')
@@ -47,7 +47,7 @@
                         </a>
                     </li>
                     <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.users.index') }}">
+                        <a href="{{ route('users.index') }}">
                             <i class="fa fa-user"></i>
                             <span class="title">
                                 @lang('global.users.title')

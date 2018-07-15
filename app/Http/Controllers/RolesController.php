@@ -19,7 +19,7 @@ class RolesController extends Controller
     {
         $roles = Role::all();
 
-        return view('admin.roles.index', compact('roles'));
+        return view('roles.index', compact('roles'));
     }
 
     /**
@@ -31,7 +31,7 @@ class RolesController extends Controller
     {
         $permissions = Permission::get()->pluck('name', 'name');
 
-        return view('admin.roles.create', compact('permissions'));
+        return view('roles.create', compact('permissions'));
     }
 
     /**
@@ -46,7 +46,7 @@ class RolesController extends Controller
         $permissions = $request->input('permission') ? $request->input('permission') : [];
         $role->givePermissionTo($permissions);
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('roles.index');
     }
 
 
@@ -61,7 +61,7 @@ class RolesController extends Controller
         $permissions = Permission::get()->pluck('name', 'name');
         $role = Role::findOrFail($id);
 
-        return view('admin.roles.edit', compact('role', 'permissions'));
+        return view('roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -78,7 +78,7 @@ class RolesController extends Controller
         $permissions = $request->input('permission') ? $request->input('permission') : [];
         $role->syncPermissions($permissions);
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('roles.index');
     }
 
 
@@ -93,7 +93,7 @@ class RolesController extends Controller
         $role = Role::findOrFail($id);
         $role->delete();
 
-        return redirect()->route('admin.roles.index');
+        return redirect()->route('roles.index');
     }
 
     /**

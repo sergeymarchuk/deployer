@@ -20,7 +20,7 @@ class UsersController extends Controller
     {
         $users = User::all();
 
-        return view('admin.users.index', compact('users'));
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -32,7 +32,7 @@ class UsersController extends Controller
     {
         $roles = Role::get()->pluck('name', 'name');
 
-        return view('admin.users.create', compact('roles'));
+        return view('users.create', compact('roles'));
     }
 
     /**
@@ -47,7 +47,7 @@ class UsersController extends Controller
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->assignRole($roles);
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('users.index');
     }
 
 
@@ -63,7 +63,7 @@ class UsersController extends Controller
 
         $user = User::findOrFail($id);
 
-        return view('admin.users.edit', compact('user', 'roles'));
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**
@@ -80,7 +80,7 @@ class UsersController extends Controller
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->syncRoles($roles);
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -94,7 +94,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('users.index');
     }
 
     /**
