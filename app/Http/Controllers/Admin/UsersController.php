@@ -84,7 +84,7 @@ class UsersController extends Controller
     /**
      * Update User in storage.
      *
-     * @param  \App\Http\Requests\UpdateUsersRequest  $request
+     * @param  \App\Http\Requests\Admin\UpdateUsersRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
