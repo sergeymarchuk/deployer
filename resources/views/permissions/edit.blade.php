@@ -3,7 +3,7 @@
 @section('content')
     <h3 class="page-title">@lang('global.permissions.title')</h3>
     
-    {!! Form::model($permission, ['method' => 'PUT', 'route' => ['admin.permissions.update', $permission->id]]) !!}
+    {!! Form::model($permission, ['method' => 'PUT', 'route' => ['permissions.update', $permission->id]]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">

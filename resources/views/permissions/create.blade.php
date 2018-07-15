@@ -2,7 +2,7 @@
 
 @section('content')
     <h3 class="page-title">@lang('global.permissions.title')</h3>
-    {!! Form::open(['method' => 'POST', 'route' => ['admin.permissions.store']]) !!}
+    {!! Form::open(['method' => 'POST', 'route' => ['permissions.store']]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">
