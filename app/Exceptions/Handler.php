@@ -1,11 +1,14 @@
-<?php
-
-namespace App\Exceptions;
+<?php namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+/**
+ * Class Handler
+ * @package App\Exceptions
+ */
 class Handler extends ExceptionHandler
 {
     /**
@@ -26,9 +29,9 @@ class Handler extends ExceptionHandler
      * Report or log an exception.
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
-     *
-     * @param  \Exception  $exception
-     * @return void
+     * @param Exception $exception
+     * @return mixed|void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -44,6 +47,14 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $exception = $this->prepareException($exception);
+        if ($this->isHttpException($exception)) {
+            $statusCode = $exception->getStatusCode();
+            $statusText = 'Unknown status';
+            if (isset(Response::$statusTexts[$statusCode]))
+                $statusText = Response::$statusTexts[$statusCode];
+            return response()->view('errors.http-error', compact('statusCode', 'statusText'), $statusCode);
+        }
         return parent::render($request, $exception);
     }
 
