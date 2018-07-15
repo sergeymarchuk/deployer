@@ -16,7 +16,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // Allow free view only for index method
+        $this->middleware('can:deploy', ['except' => ['index']]);
     }
 
     /**
