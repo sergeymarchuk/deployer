@@ -4,10 +4,10 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 /**
- * Class Deployment
+ * Class DeploymentService
  * @package App\Services
  */
-class Deployment
+class DeploymentService
 {
     const COMMANDS = [
         'git-pull' => 'git pull',
@@ -25,7 +25,7 @@ class Deployment
         $project['path'] = '/home/svystun/www/stage.cf15.pro';
 
         $process = ($action == 'artisan-migrate') ?
-            new RemoteArtisan($project['path'], self::COMMANDS[$action], ['--force' => true]) :
+            new ArtisanService($project['path'], self::COMMANDS[$action], ['--force' => true]) :
             new Process(self::COMMANDS[$action], $project['path']);
 
         return $this->getResponse($process);

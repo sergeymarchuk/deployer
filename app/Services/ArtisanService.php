@@ -6,10 +6,10 @@ use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
 /**
- * Class RemoteArtisan
+ * Class ArtisanService
  * @package App
  */
-class RemoteArtisan
+class ArtisanService
 {
     /**
      * @var $path
