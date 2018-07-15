@@ -28,15 +28,6 @@ class DeploymentService
             new ArtisanService($project['path'], self::COMMANDS[$action], ['--force' => true]) :
             new Process(self::COMMANDS[$action], $project['path']);
 
-        return $this->getResponse($process);
-    }
-
-    /**
-     * @param $process
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function getResponse($process)
-    {
         try {
             $text = ($process instanceof Process) ?
                 $process->mustRun()->getOutput() :
