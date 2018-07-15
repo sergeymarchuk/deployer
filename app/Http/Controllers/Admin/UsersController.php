@@ -1,15 +1,16 @@
-<?php
+<?php namespace App\Http\Controllers\Admin;
 
-namespace App\Http\Controllers\Admin;
-
-use App\User;
+use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreUsersRequest;
-use App\Http\Requests\Admin\UpdateUsersRequest;
+use App\Http\Requests\Admin\{StoreUsersRequest, UpdateUsersRequest};
 
+/**
+ * Class UsersController
+ * @package App\Http\Controllers\Admin
+ */
 class UsersController extends Controller
 {
     /**
@@ -46,7 +47,7 @@ class UsersController extends Controller
     /**
      * Store a newly created User in storage.
      *
-     * @param  \App\Http\Requests\StoreUsersRequest  $request
+     * @param  \App\Http\Requests\Admin\StoreUsersRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUsersRequest $request)
