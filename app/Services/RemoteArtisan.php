@@ -1,4 +1,4 @@
-<?php namespace App\Service;
+<?php namespace App\Services;
 
 use Dotenv\Dotenv;
 use Illuminate\Support\Str;
