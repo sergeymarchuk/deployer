@@ -2,7 +2,7 @@
 
 @section('content')
     <h3 class="page-title">@lang('global.roles.title')</h3>
-    {!! Form::open(['method' => 'POST', 'route' => ['admin.roles.store']]) !!}
+    {!! Form::open(['method' => 'POST', 'route' => ['roles.store']]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">
