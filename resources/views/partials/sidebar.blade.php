@@ -6,12 +6,19 @@
         <ul class="sidebar-menu">
 
             <li class="{{ $request->segment(1) == 'home' ? 'active' : '' }}">
-                <a href="{{ url('/') }}">
+                <a href="{{ route('admin.home') }}">
                     <i class="fa fa-wrench"></i>
                     <span class="title">@lang('global.app_dashboard')</span>
                 </a>
             </li>
-            
+            @can('deploy')
+            <li class="{{ $request->segment(1) == 'projects' ? 'active' : '' }}">
+                <a href="{{ route('projects.index') }}">
+                    <i class="fa fa-wrench"></i>
+                    <span class="title">@lang('global.app_projects')</span>
+                </a>
+            </li>
+            @endcan
             @can('users_manage')
             <li class="treeview">
                 <a href="#">
