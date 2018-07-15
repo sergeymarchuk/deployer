@@ -1,10 +1,9 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\{StoreUsersRequest, UpdateUsersRequest};
+use App\Http\Requests\{StoreUsersRequest, UpdateUsersRequest};
 
 /**
  * Class UsersController
@@ -39,7 +38,7 @@ class UsersController extends Controller
     /**
      * Store a newly created User in storage.
      *
-     * @param  \App\Http\Requests\Admin\StoreUsersRequest  $request
+     * @param  \App\Http\Requests\StoreUsersRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreUsersRequest $request)
@@ -70,7 +69,7 @@ class UsersController extends Controller
     /**
      * Update User in storage.
      *
-     * @param  \App\Http\Requests\Admin\UpdateUsersRequest  $request
+     * @param  \App\Http\Requests\UpdateUsersRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

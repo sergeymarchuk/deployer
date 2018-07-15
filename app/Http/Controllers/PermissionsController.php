@@ -1,9 +1,8 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\Permission;
-use App\Http\Requests\Admin\{StorePermissionsRequest, UpdatePermissionsRequest};
+use App\Http\Requests\{StorePermissionsRequest, UpdatePermissionsRequest};
 
 /**
  * Class PermissionsController
@@ -36,7 +35,7 @@ class PermissionsController extends Controller
     /**
      * Store a newly created Permission in storage.
      *
-     * @param  \App\Http\Requests\Admin\StorePermissionsRequest  $request
+     * @param  \App\Http\Requests\StorePermissionsRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StorePermissionsRequest $request)
@@ -63,7 +62,7 @@ class PermissionsController extends Controller
     /**
      * Update Permission in storage.
      *
-     * @param  \App\Http\Requests\Admin\UpdatePermissionsRequest  $request
+     * @param  \App\Http\Requests\UpdatePermissionsRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

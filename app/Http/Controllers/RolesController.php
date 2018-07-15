@@ -1,9 +1,8 @@
-<?php namespace App\Http\Controllers\Admin;
+<?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Spatie\Permission\Models\{Role, Permission};
-use App\Http\Requests\Admin\{StoreRolesRequest, UpdateRolesRequest};
+use App\Http\Requests\{StoreRolesRequest, UpdateRolesRequest};
 
 /**
  * Class RolesController
@@ -38,7 +37,7 @@ class RolesController extends Controller
     /**
      * Store a newly created Role in storage.
      *
-     * @param  \App\Http\Requests\Admin\StoreRolesRequest  $request
+     * @param  \App\Http\Requests\StoreRolesRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRolesRequest $request)
@@ -68,7 +67,7 @@ class RolesController extends Controller
     /**
      * Update Role in storage.
      *
-     * @param  \App\Http\Requests\Admin\UpdateRolesRequest  $request
+     * @param  \App\Http\Requests\UpdateRolesRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

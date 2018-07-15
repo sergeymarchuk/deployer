@@ -1,10 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\Http\Requests;
-use App\Services\RemoteArtisan;
 use Illuminate\Http\Request;
-use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
+use App\Services\Deployment;
 
 /**
  * Class HomeController
@@ -34,54 +31,11 @@ class HomeController extends Controller
 
     /**
      * @param string $action
-     * @return mixed|string
+     * @param Deployment $deployment
+     * @return mixed
      */
-    public function runAction(string $action)
+    public function deploy(string $action, Deployment $deployment)
     {
-        //TODO: Implement functionality: Get project by id
-        $project['path'] = '/home/svystun/www/stage.cf15.pro';
-
-        if ($action == 'artisan-migrate') {
-            $process = new RemoteArtisan($project['path'], 'migrate', ['--force' => true]);
-            return $this->getResponse($process);
-        }
-
-        $commands = [
-            'git-pull' => 'git pull',
-            'composer-install' => 'composer install'
-        ];
-
-        // Run process
-        $process = new Process($commands[$action], $project['path']);
-
-        return $this->getResponse($process);
-    }
-
-    /**
-     * @param $process
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function getResponse($process)
-    {
-        try {
-            $text = ($process instanceof Process) ? $process->mustRun()->getOutput() : $process->run();
-            return $this->jsonResponse($text, 'ok');
-        } catch (ProcessFailedException $exception) {
-            return $this->jsonResponse($exception->getMessage(), 'error');
-        }
-    }
-
-    /**
-     * @param string $message
-     * @param string $status
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function jsonResponse(string $message, string $status) {
-        return response()->jsonp('checkAndRun', [
-            'status' => $status,
-            'message' => $message,
-            'next' => request('next', ''),
-            'prev' => request('prev', '')
-        ]);
+        return $deployment->runAction($action);
     }
 }
