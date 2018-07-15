@@ -16,16 +16,21 @@ $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.password.reset');
 
-Route::group(['middleware' => ['auth', 'can:users_manage'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::resource('permissions', 'Admin\PermissionsController');
-    Route::post('permissions-mass-destroy', ['uses' => 'Admin\PermissionsController@massDestroy', 'as' => 'permissions.mass_destroy']);
-    Route::resource('roles', 'Admin\RolesController');
-    Route::post('roles-mass-destroy', ['uses' => 'Admin\RolesController@massDestroy', 'as' => 'roles.mass_destroy']);
-    Route::resource('users', 'Admin\UsersController');
-    Route::post('users-mass-destroy', ['uses' => 'Admin\UsersController@massDestroy', 'as' => 'users.mass_destroy']);
+Route::group(['middleware' => ['auth', 'can:users_manage'], 'prefix' => 'admin'], function () {
+    Route::resource('permissions', 'PermissionsController');
+    Route::post('permissions-mass-destroy', ['uses' => 'PermissionsController@massDestroy', 'as' => 'permissions.mass_destroy']);
+    Route::resource('roles', 'RolesController');
+    Route::post('roles-mass-destroy', ['uses' => 'RolesController@massDestroy', 'as' => 'roles.mass_destroy']);
+    Route::resource('users', 'UsersController');
+    Route::post('users-mass-destroy', ['uses' => 'UsersController@massDestroy', 'as' => 'users.mass_destroy']);
+});
+
+Route::group(['middleware' => ['auth', 'can:deploy'], 'prefix' => 'admin'], function () {
+    Route::resource('projects', 'ProjectsController');
+    Route::post('projects-mass-destroy', ['uses' => 'Admin\ProjectsController@massDestroy', 'as' => 'projects.mass_destroy']);
 });
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('deploy/{action}', 'HomeController@runAction')->where('action', 'git-pull|composer-install|artisan-migrate');
+    Route::get('home', 'HomeController@index')->name('home');
+    Route::get('deploy/{action}', 'HomeController@deploy')->where('action', 'git-pull|composer-install|artisan-migrate');
 });

@@ -19,7 +19,7 @@ class ProjectsController extends Controller
     {
         $projects = Project::all();
 
-        return view('admin::projects.index', compact('projects'));
+        return view('projects.index', compact('projects'));
     }
 
     /**
@@ -34,7 +34,7 @@ class ProjectsController extends Controller
             'project_statuses' => ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', ''),
         ];
 
-        return view('admin::projects.create', $relations);
+        return view('projects.create', $relations);
     }
 
     /**
@@ -66,7 +66,7 @@ class ProjectsController extends Controller
 
         $project = Project::findOrFail($id);
 
-        return view('admin::projects.edit', compact('project') + $relations);
+        return view('projects.edit', compact('project') + $relations);
     }
 
     /**
@@ -99,7 +99,7 @@ class ProjectsController extends Controller
 
         $project = Project::findOrFail($id);
 
-        return view('admin::projects.show', compact('project') + $relations);
+        return view('projects.show', compact('project') + $relations);
     }
 
     /**
