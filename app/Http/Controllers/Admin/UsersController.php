@@ -1,9 +1,8 @@
 <?php namespace App\Http\Controllers\Admin;
 
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\{StoreUsersRequest, UpdateUsersRequest};
 
@@ -20,10 +19,6 @@ class UsersController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
         $users = User::all();
 
         return view('admin.users.index', compact('users'));
@@ -36,9 +31,6 @@ class UsersController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
         $roles = Role::get()->pluck('name', 'name');
 
         return view('admin.users.create', compact('roles'));
@@ -52,9 +44,6 @@ class UsersController extends Controller
      */
     public function store(StoreUsersRequest $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
         $user = User::create($request->all());
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->assignRole($roles);
@@ -71,9 +60,6 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
         $roles = Role::get()->pluck('name', 'name');
 
         $user = User::findOrFail($id);
@@ -90,9 +76,6 @@ class UsersController extends Controller
      */
     public function update(UpdateUsersRequest $request, $id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
         $user = User::findOrFail($id);
         $user->update($request->all());
         $roles = $request->input('roles') ? $request->input('roles') : [];
@@ -109,9 +92,6 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
         $user = User::findOrFail($id);
         $user->delete();
 
@@ -125,9 +105,6 @@ class UsersController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
         if ($request->input('ids')) {
             $entries = User::whereIn('id', $request->input('ids'))->get();
 
