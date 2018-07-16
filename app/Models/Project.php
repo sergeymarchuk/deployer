@@ -22,7 +22,7 @@ class Project extends Model
     /**
      * @var array $fillable
      */
-    protected $fillable = ['title', 'description', 'project_status_id'];
+    protected $fillable = ['title', 'path', 'project_status_id'];
 
     /**
      * Set to null if empty
