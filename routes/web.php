@@ -21,6 +21,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('deploy/{action}', 'HomeController@deploy')->where('action', 'git-pull|composer-install|artisan-migrate');
 
     Route::resource('projects', 'ProjectsController');
+    Route::get('projects/{id}/deploy', 'ProjectsController@deploy')->name('projects.deploy');
     Route::post('projects-mass-destroy', 'ProjectsController@massDestroy')->name('projects.mass_destroy');
 
     Route::group(['middleware' => 'can:users_manage'], function () {

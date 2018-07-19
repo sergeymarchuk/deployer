@@ -139,4 +139,16 @@ class ProjectsController extends Controller
             }
         }
     }
+
+    /**
+     * Project deploy page
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function deploy($id)
+    {
+        $project = Project::findOrFail($id);
+        return view('projects.deploy', compact('project'));
+    }
 }

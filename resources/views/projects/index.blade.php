@@ -9,9 +9,9 @@
                 <thead>
                     <tr>
                         <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>
-                        <th>Title</th>
-                        <th>Client</th>
-                        <th>Start date</th>
+                        <th>Project Name</th>
+                        <th>Last Deloyer</th>
+                        <th>Date</th>
                         <th>Budget</th>
                         <th>Project status</th>
                         <th>&nbsp;</th>
@@ -23,7 +23,7 @@
                         @foreach ($projects as $project)
                             <tr data-entry-id="{{ $project->id }}">
                                 <td></td>
-                                <td>{{ $project->title }}</td>
+                                <td><a href="{{ route('projects.deploy',[$project->id]) }}">{{ $project->title }}</a></td>
                                 <td>{{ $project->client->first_name or '' }}</td>
                                 <td>{{ $project->start_date }}</td>
                                 <td>{{ $project->budget }}</td>
