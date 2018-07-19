@@ -22,5 +22,12 @@ class UserSeed extends Seeder
         ]);
         $user->assignRole('administrator');
 
+        $user = User::create([
+            'name' => 'Deployer',
+            'email' => 'deploy@deploy.com',
+            'password' => bcrypt('deploy')
+        ]);
+        $user->assignRole('deployer');
+
     }
 }
