@@ -31,7 +31,7 @@
                 <ul class="treeview-menu">
 
                     <!-- li class="{{ $request->segment(2) == 'permissions' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('permissions.index') }}">
+                        <a href=" route('permissions.index') ">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
                                 @lang('global.permissions.title')
