@@ -11,6 +11,17 @@ use App\Http\Requests\{StoreProjectsRequest,UpdateProjectsRequest};
 class ProjectsController extends Controller
 {
     /**
+     * ProjectsController constructor.
+     */
+    public function __construct()
+    {
+        // Allow just view of projects
+        $this->middleware('can:projects_manage', [
+            'except' => ['index']
+        ]);
+    }
+
+    /**
      * Display a listing of Project.
      *
      * @return \Illuminate\Http\Response
@@ -30,7 +41,6 @@ class ProjectsController extends Controller
     public function create()
     {
         $relations = [
-            'clients' => Client::get()->pluck('first_name', 'id')->prepend('Please select', ''),
             'project_statuses' => ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', ''),
         ];
 
@@ -60,7 +70,6 @@ class ProjectsController extends Controller
     public function edit($id)
     {
         $relations = [
-            'clients' => Client::get()->pluck('first_name', 'id')->prepend('Please select', ''),
             'project_statuses' => ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', ''),
         ];
 
@@ -93,7 +102,6 @@ class ProjectsController extends Controller
     public function show($id)
     {
         $relations = [
-            'clients' => Client::get()->pluck('first_name', 'id')->prepend('Please select', ''),
             'project_statuses' => ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', ''),
         ];
 
