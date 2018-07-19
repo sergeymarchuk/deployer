@@ -24,8 +24,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::post('projects-mass-destroy', 'ProjectsController@massDestroy')->name('projects.mass_destroy');
 
     Route::group(['middleware' => 'can:users_manage'], function () {
-        Route::resource('permissions', 'PermissionsController');
-        Route::post('permissions-mass-destroy', ['uses' => 'PermissionsController@massDestroy', 'as' => 'permissions.mass_destroy']);
+        //Route::resource('permissions', 'PermissionsController');
+        //Route::post('permissions-mass-destroy', ['uses' => 'PermissionsController@massDestroy', 'as' => 'permissions.mass_destroy']);
         Route::resource('roles', 'RolesController');
         Route::post('roles-mass-destroy', ['uses' => 'RolesController@massDestroy', 'as' => 'roles.mass_destroy']);
         Route::resource('users', 'UsersController');
