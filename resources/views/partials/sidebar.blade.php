@@ -30,14 +30,14 @@
                 </a>
                 <ul class="treeview-menu">
 
-                    <li class="{{ $request->segment(2) == 'permissions' ? 'active active-sub' : '' }}">
+                    <!-- li class="{{ $request->segment(2) == 'permissions' ? 'active active-sub' : '' }}">
                         <a href="{{ route('permissions.index') }}">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
                                 @lang('global.permissions.title')
                             </span>
                         </a>
-                    </li>
+                    </li -->
                     <li class="{{ $request->segment(2) == 'roles' ? 'active active-sub' : '' }}">
                         <a href="{{ route('roles.index') }}">
                             <i class="fa fa-briefcase"></i>
