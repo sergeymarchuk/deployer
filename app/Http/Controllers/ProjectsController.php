@@ -1,7 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Models\{Project, ProjectStatus};
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Http\Requests\{StoreProjectsRequest,UpdateProjectsRequest};
 
 /**
@@ -17,7 +19,7 @@ class ProjectsController extends Controller
     {
         // Allow just view of projects
         $this->middleware('can:projects_manage', [
-            'except' => ['index']
+            'except' => ['index', 'deploy']
         ]);
     }
 
@@ -148,7 +150,12 @@ class ProjectsController extends Controller
      */
     public function deploy($id)
     {
-        $project = Project::findOrFail($id);
-        return view('projects.deploy', compact('project'));
+        if (Auth::user()->hasPermissionTo('deploy')) {
+
+            $project = Project::findOrFail($id);
+            return view('projects.deploy', compact('project'));
+        }
+
+        throw new HttpException(403);
     }
 }
