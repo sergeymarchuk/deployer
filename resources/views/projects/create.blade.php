@@ -36,11 +36,24 @@
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('project_status_id', 'Project status*', ['class' => 'control-label']) !!}
-                    {!! Form::select('project_status_id', $project_statuses, old('project_status_id'), ['class' => 'form-control']) !!}
+                    {!! Form::select('project_status_id', $projectStatuses, old('project_status_id'), ['class' => 'form-control']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('project_status_id'))
                         <p class="help-block">
                             {{ $errors->first('project_status_id') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('deployer', 'Deployers', ['class' => 'control-label']) !!}
+                    {!! Form::select('deployer[]', $users, old('deployer'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('deployer'))
+                        <p class="help-block">
+                            {{ $errors->first('deployer') }}
                         </p>
                     @endif
                 </div>

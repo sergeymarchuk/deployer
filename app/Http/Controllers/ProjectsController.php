@@ -1,7 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Project, ProjectStatus};
+use App\Models\{
+    Project, ProjectStatus, User
+};
 use App\Http\Requests\{StoreProjectsRequest,UpdateProjectsRequest};
 
 /**
@@ -40,11 +42,10 @@ class ProjectsController extends Controller
      */
     public function create()
     {
-        $relations = [
-            'project_statuses' => ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', ''),
-        ];
+        $projectStatuses = ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', '');
+        $users = User::get()->pluck('name', 'id');
 
-        return view('projects.create', $relations);
+        return view('projects.create', compact('projectStatuses', 'users'));
     }
 
     /**
@@ -55,7 +56,11 @@ class ProjectsController extends Controller
      */
     public function store(StoreProjectsRequest $request)
     {
-        Project::create($request->all());
+        $project = Project::create($request->except('deployer'));
+
+        if ($deployers = $request->input('deployer')) {
+            $project->users()->sync($deployers);
+        }
 
         return redirect()->route('projects.index');
     }

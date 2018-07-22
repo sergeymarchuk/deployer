@@ -27,6 +27,8 @@ class StoreProjectsRequest extends FormRequest
     {
         return [
             'project_status_id' => 'required',
+            'path' => 'required',
+            'deployer' => 'required'
         ];
     }
 }

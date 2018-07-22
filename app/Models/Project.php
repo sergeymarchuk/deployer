@@ -22,7 +22,7 @@ class Project extends Model
     /**
      * @var array $fillable
      */
-    protected $fillable = ['title', 'path', 'project_status_id'];
+    protected $fillable = ['title', 'path', 'project_status_id', 'deployed_at'];
 
     /**
      * Set to null if empty
@@ -38,6 +38,13 @@ class Project extends Model
      */
     public function projectStatus()
     {
-        return $this->belongsTo(ProjectStatus::class, 'project_status_id')->withTrashed();
+        return $this->belongsTo(ProjectStatus::class, 'project_status_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function users() {
+        return $this->belongsToMany(User::class, 'users_has_projects');
     }
 }
