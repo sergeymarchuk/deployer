@@ -23,14 +23,16 @@ class UserHasProjects extends Migration
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
+                ->onUpdate('cascade')
                 ->onDelete('cascade');
 
             $table->foreign('project_id')
                 ->references('id')
                 ->on('projects')
+                ->onUpdate('cascade')
                 ->onDelete('cascade');
 
-            $table->primary(['user_id', 'project_id']);
+            $table->unique(['user_id', 'project_id']);
         });
     }
 
