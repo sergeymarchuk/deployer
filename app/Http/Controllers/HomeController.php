@@ -1,7 +1,6 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\DeploymentService;
 
 /**
  * Class HomeController
@@ -30,15 +29,5 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
-    }
-
-    /**
-     * @param string $action
-     * @param DeploymentService $deployment
-     * @return mixed
-     */
-    public function deploy(string $action, DeploymentService $deployment)
-    {
-        return $deployment->runAction($action);
     }
 }
