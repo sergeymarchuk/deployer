@@ -18,10 +18,10 @@ $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
     Route::get('home', 'HomeController@index')->name('admin.home');
-    Route::get('deploy/{action}', 'HomeController@deploy')->where('action', 'git-pull|composer-install|artisan-migrate');
 
     Route::resource('projects', 'ProjectsController');
     Route::get('projects/{id}/deploy', 'ProjectsController@deploy')->name('projects.deploy');
+    Route::get('projects/{id}/deploy/{action}', 'ProjectsController@deployAction')->where('action', 'git-pull|composer-install|artisan-migrate');
     Route::post('projects-mass-destroy', 'ProjectsController@massDestroy')->name('projects.mass_destroy');
 
     Route::group(['middleware' => 'can:users_manage'], function () {
