@@ -40,4 +40,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function projects() {
+        return $this->belongsToMany(Project::class, 'users_has_projects');
+    }
 }
