@@ -1,10 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\DeploymentService;
-use Illuminate\Support\Facades\Auth;
 use App\Models\{Project, ProjectStatus};
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use App\Http\Requests\{StoreProjectsRequest,UpdateProjectsRequest};
 
 /**
