@@ -19,7 +19,8 @@ $(document).ready(function() {
 function remoteRequest(url) {
     let head = document.head;
     let script = document.createElement("script");
-    script.setAttribute("src", '/admin/deploy/' + url);
+    let id = $('#project_id').attr('data-id');
+    script.setAttribute("src", '/admin/deploy/' + id + '/' + url);
     head.appendChild(script);
     head.removeChild(script);
 }

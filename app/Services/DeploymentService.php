@@ -1,5 +1,6 @@
 <?php namespace App\Services;
 
+use App\Models\Project;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 
@@ -16,17 +17,17 @@ class DeploymentService
     ];
 
     /**
+     * @param Project $project
      * @param string $action
      * @return mixed|string
      */
-    public function runAction(string $action)
+    public function runAction(Project $project, string $action)
     {
-        //TODO: Implement functionality: Get project by id
-        $project['path'] = '/home/svystun/www/stage.cf15.pro';
+        //TODO: Check if path exists and artisan file
 
         $process = ($action == 'artisan-migrate') ?
-            new ArtisanService($project['path'], self::COMMANDS[$action], ['--force' => true]) :
-            new Process(self::COMMANDS[$action], $project['path']);
+            new ArtisanService($project->path, self::COMMANDS[$action], ['--force' => true]) :
+            new Process(self::COMMANDS[$action], $project->path);
 
         try {
             $text = ($process instanceof Process) ?
