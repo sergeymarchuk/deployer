@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\DeploymentService;
 use Illuminate\Support\Facades\Auth;
 use App\Models\{Project, ProjectStatus};
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -19,8 +20,18 @@ class ProjectsController extends Controller
     {
         // Allow just view of projects
         $this->middleware('can:projects_manage', [
-            'except' => ['index', 'deploy']
+            'except' => ['index', 'home']
         ]);
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function home()
+    {
+        return view('home');
     }
 
     /**
@@ -140,22 +151,5 @@ class ProjectsController extends Controller
                 $entry->delete();
             }
         }
-    }
-
-    /**
-     * Project deploy page
-     *
-     * @param $id
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    public function deploy($id)
-    {
-        if (Auth::user()->hasPermissionTo('deploy')) {
-
-            $project = Project::findOrFail($id);
-            return view('projects.deploy', compact('project'));
-        }
-
-        throw new HttpException(403);
     }
 }
