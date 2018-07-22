@@ -16,8 +16,8 @@ $this->post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail'
 $this->get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 $this->post('password/reset', 'Auth\ResetPasswordController@reset')->name('auth.password.reset');
 
-Route::group(['middleware' => ['auth'], 'prefix' => 'admin'], function () {
-    Route::get('home', 'ProjectsController@home')->name('admin.home');
+Route::group(['middleware' => 'auth', 'prefix' => 'admin'], function () {
+    Route::view('home', 'home')->name('admin.home');
     Route::resource('projects', 'ProjectsController');
     Route::post('projects-mass-destroy', 'ProjectsController@massDestroy')->name('projects.mass_destroy');
 

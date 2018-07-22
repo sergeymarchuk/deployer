@@ -17,18 +17,8 @@ class ProjectsController extends Controller
     {
         // Allow just view of projects
         $this->middleware('can:projects_manage', [
-            'except' => ['index', 'home']
+            'except' => ['index']
         ]);
-    }
-
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function home()
-    {
-        return view('home');
     }
 
     /**
