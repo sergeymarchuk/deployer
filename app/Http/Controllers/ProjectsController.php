@@ -74,13 +74,11 @@ class ProjectsController extends Controller
      */
     public function edit($id)
     {
-        $relations = [
-            'project_statuses' => ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', ''),
-        ];
-
+        $projectStatuses = ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', '');
         $project = Project::findOrFail($id);
+        $users = User::get()->pluck('name', 'id');
 
-        return view('projects.edit', compact('project') + $relations);
+        return view('projects.edit', compact('projectStatuses', 'project', 'users'));
     }
 
     /**
@@ -94,6 +92,10 @@ class ProjectsController extends Controller
     {
         $project = Project::findOrFail($id);
         $project->update($request->all());
+
+        if ($deployers = $request->input('deployer')) {
+            $project->users()->sync($deployers);
+        }
 
         return redirect()->route('projects.index');
     }
