@@ -6,12 +6,17 @@
         <ul class="sidebar-menu">
 
             <li class="{{ $request->segment(1) == 'home' ? 'active' : '' }}">
-                <a href="{{ url('/') }}">
+                <a href="{{ route('admin.home') }}">
                     <i class="fa fa-wrench"></i>
                     <span class="title">@lang('global.app_dashboard')</span>
                 </a>
             </li>
-            
+            <li class="{{ $request->segment(1) == 'projects' ? 'active' : '' }}">
+                <a href="{{ route('projects.index') }}">
+                    <i class="fa fa-wrench"></i>
+                    <span class="title">@lang('global.app_projects')</span>
+                </a>
+            </li>
             @can('users_manage')
             <li class="treeview">
                 <a href="#">
@@ -23,16 +28,16 @@
                 </a>
                 <ul class="treeview-menu">
 
-                    <li class="{{ $request->segment(2) == 'permissions' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.permissions.index') }}">
+                    <!-- li class="{{ $request->segment(2) == 'permissions' ? 'active active-sub' : '' }}">
+                        <a href=" route('permissions.index') ">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
                                 @lang('global.permissions.title')
                             </span>
                         </a>
-                    </li>
+                    </li -->
                     <li class="{{ $request->segment(2) == 'roles' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.roles.index') }}">
+                        <a href="{{ route('roles.index') }}">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
                                 @lang('global.roles.title')
@@ -40,7 +45,7 @@
                         </a>
                     </li>
                     <li class="{{ $request->segment(2) == 'users' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.users.index') }}">
+                        <a href="{{ route('users.index') }}">
                             <i class="fa fa-user"></i>
                             <span class="title">
                                 @lang('global.users.title')

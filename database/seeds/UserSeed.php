@@ -1,8 +1,11 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\User;
+use App\Models\User;
 
+/**
+ * Class UserSeed
+ */
 class UserSeed extends Seeder
 {
     /**
@@ -18,6 +21,13 @@ class UserSeed extends Seeder
             'password' => bcrypt('password')
         ]);
         $user->assignRole('administrator');
+
+        $user = User::create([
+            'name' => 'Deployer',
+            'email' => 'deploy@deploy.com',
+            'password' => bcrypt('deploy')
+        ]);
+        $user->assignRole('deployer');
 
     }
 }
