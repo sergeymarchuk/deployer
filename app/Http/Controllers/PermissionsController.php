@@ -17,7 +17,7 @@ class PermissionsController extends Controller
     protected $permissionRepo;
 
     /**
-     * RolesController constructor.
+     * PermissionsController constructor.
      *
      * @param Permission $permission
      */
