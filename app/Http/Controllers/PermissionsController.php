@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Repositories\Repository;
 use Spatie\Permission\Models\Permission;
 use App\Http\Requests\{StorePermissionsRequest, UpdatePermissionsRequest};
 
@@ -11,13 +12,28 @@ use App\Http\Requests\{StorePermissionsRequest, UpdatePermissionsRequest};
 class PermissionsController extends Controller
 {
     /**
+     * @var Repository $permissionRepo
+     */
+    protected $permissionRepo;
+
+    /**
+     * RolesController constructor.
+     *
+     * @param Permission $permission
+     */
+    public function __construct(Permission $permission)
+    {
+        $this->permissionRepo = new Repository($permission);
+    }
+
+    /**
      * Display a listing of Permission.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $permissions = Permission::all();
+        $permissions = $this->permissionRepo->all();
 
         return view('permissions.index', compact('permissions'));
     }
@@ -40,7 +56,7 @@ class PermissionsController extends Controller
      */
     public function store(StorePermissionsRequest $request)
     {
-        Permission::create($request->all());
+        $this->permissionRepo->create($request->all());
 
         return redirect()->route('permissions.index');
     }
@@ -54,7 +70,7 @@ class PermissionsController extends Controller
      */
     public function edit($id)
     {
-        $permission = Permission::findOrFail($id);
+        $permission = $this->permissionRepo->findOrFail($id);
 
         return view('permissions.edit', compact('permission'));
     }
@@ -68,7 +84,7 @@ class PermissionsController extends Controller
      */
     public function update(UpdatePermissionsRequest $request, $id)
     {
-        $permission = Permission::findOrFail($id);
+        $permission = $this->permissionRepo->findOrFail($id);
         $permission->update($request->all());
 
         return redirect()->route('permissions.index');
@@ -83,7 +99,7 @@ class PermissionsController extends Controller
      */
     public function destroy($id)
     {
-        $permission = Permission::findOrFail($id);
+        $permission = $this->permissionRepo->findOrFail($id);
         $permission->delete();
 
         return redirect()->route('permissions.index');
@@ -97,7 +113,7 @@ class PermissionsController extends Controller
     public function massDestroy(Request $request)
     {
         if ($request->input('ids')) {
-            $entries = Permission::whereIn('id', $request->input('ids'))->get();
+            $entries = $this->permissionRepo->getModel()->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
