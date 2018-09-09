@@ -6,10 +6,19 @@ use Spatie\Permission\Models\Role;
  * Class RoleRepository
  * @package App\Repositories
  */
-class RoleRepository extends Repository
+class RoleRepository extends AbstractRepository
 {
+    /**
+     * @var Role $model
+     */
+    protected $model;
+
+    /**
+     * RoleRepository constructor.
+     * @param Role $role
+     */
     public function __construct(Role $role)
     {
-        parent::__construct($role);
+        $this->model = $role;
     }
 }

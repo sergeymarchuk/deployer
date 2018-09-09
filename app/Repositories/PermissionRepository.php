@@ -6,10 +6,20 @@ use Spatie\Permission\Models\Permission;
  * Class PermissionRepository
  * @package App\Repositories
  */
-class PermissionRepository extends Repository
+class PermissionRepository extends AbstractRepository
 {
+    /**
+     * @var Permission $model
+     */
+    protected $model;
+
+    /**
+     * PermissionRepository constructor.
+     *
+     * @param Permission $permission
+     */
     public function __construct(Permission $permission)
     {
-        parent::__construct($permission);
+        $this->model = $permission;
     }
 }

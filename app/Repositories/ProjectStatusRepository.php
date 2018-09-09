@@ -6,10 +6,19 @@ use App\Models\ProjectStatus;
  * Class ProjectStatusRepository
  * @package App\Repositories
  */
-class ProjectStatusRepository extends Repository
+class ProjectStatusRepository extends AbstractRepository
 {
+    /**
+     * @var ProjectStatus $model
+     */
+    protected $model;
+
+    /**
+     * ProjectStatusRepository constructor.
+     * @param ProjectStatus $project
+     */
     public function __construct(ProjectStatus $project)
     {
-        parent::__construct($project);
+        $this->model = $project;
     }
 }
