@@ -1,8 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Services\DeploymentService;
-use App\Repositories\Repository;
-use App\Models\Project;
+use App\Repositories\ProjectRepository;
 
 /**
  * Class ProjectsController
@@ -11,18 +10,18 @@ use App\Models\Project;
 class DeployController extends Controller
 {
     /**
-     * @var Repository $projectRepo
+     * @var ProjectRepository $projectRepo
      */
     protected $projectRepo;
 
     /**
      * DeployController constructor.
      *
-     * @param Project $project
+     * @param ProjectRepository $projectRepository
      */
-    public function __construct(Project $project)
+    public function __construct(ProjectRepository $projectRepository)
     {
-        $this->projectRepo = new Repository($project);
+        $this->projectRepo = $projectRepository;
     }
 
     /**
