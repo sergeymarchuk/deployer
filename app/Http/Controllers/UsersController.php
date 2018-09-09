@@ -1,9 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use App\Repositories\Repository;
-use Spatie\Permission\Models\Role;
+use App\Repositories\{RoleRepository, UserRepository};
 use App\Http\Requests\{StoreUsersRequest, UpdateUsersRequest};
 
 /**
@@ -13,24 +11,25 @@ use App\Http\Requests\{StoreUsersRequest, UpdateUsersRequest};
 class UsersController extends Controller
 {
     /**
-     * @var Repository $userRepo
+     * @var UserRepository $userRepo
      */
     protected $userRepo;
 
     /**
-     * @var Repository $roleRepo
+     * @var RoleRepository $roleRepo
      */
     protected $roleRepo;
 
     /**
      * UsersController constructor.
-     * @param User $user
-     * @param Role $role
+     *
+     * @param UserRepository $userRepo
+     * @param RoleRepository $roleRepo
      */
-    public function __construct(User $user, Role $role)
+    public function __construct(UserRepository $userRepo, RoleRepository $roleRepo)
     {
-        $this->userRepo = new Repository($user);
-        $this->roleRepo = new Repository($role);
+        $this->userRepo = $userRepo;
+        $this->roleRepo = $roleRepo;
     }
 
     /**

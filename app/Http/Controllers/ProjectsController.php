@@ -1,8 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\{Project, ProjectStatus, User};
-use App\Repositories\Repository;
+use App\Repositories\{ProjectRepository, ProjectStatusRepository, UserRepository};
 use App\Http\Requests\{StoreProjectsRequest,UpdateProjectsRequest};
 
 /**
@@ -12,36 +11,39 @@ use App\Http\Requests\{StoreProjectsRequest,UpdateProjectsRequest};
 class ProjectsController extends Controller
 {
     /**
-     * @var Repository $projectRepository
+     * @var ProjectRepository $projectRepository
      */
     protected $projectRepo;
 
     /**
-     * @var Repository $projectStatusRepository
+     * @var ProjectStatusRepository $projectStatusRepository
      */
     protected $projectStatusRepo;
 
     /**
-     * @var Repository $userRepository
+     * @var UserRepository $userRepository
      */
     protected $userRepo;
 
     /**
      * ProjectsController constructor.
      *
-     * @param Project $project
-     * @param ProjectStatus $projectStatus
-     * @param User $user
+     * @param ProjectRepository $projectRepo
+     * @param ProjectStatusRepository $projectStatusRepo
+     * @param UserRepository $userRepo
      */
-    public function __construct(Project $project, ProjectStatus $projectStatus, User $user)
+    public function __construct(
+        ProjectRepository $projectRepo,
+        ProjectStatusRepository $projectStatusRepo,
+        UserRepository $userRepo)
     {
         // Allow just view of projects
         $this->middleware('can:projects_manage', [
             'except' => ['index']
         ]);
-        $this->projectRepo = new Repository($project);
-        $this->projectStatusRepo = new Repository($projectStatus);
-        $this->userRepo = new Repository($user);
+        $this->projectRepo = $projectRepo;
+        $this->projectStatusRepo = $projectStatusRepo;
+        $this->userRepo = $userRepo;
     }
 
     /**

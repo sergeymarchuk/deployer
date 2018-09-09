@@ -1,8 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\Repository;
-use Spatie\Permission\Models\{Role, Permission};
+use App\Repositories\{RoleRepository, PermissionRepository};
 use App\Http\Requests\{StoreRolesRequest, UpdateRolesRequest};
 
 /**
@@ -12,25 +11,25 @@ use App\Http\Requests\{StoreRolesRequest, UpdateRolesRequest};
 class RolesController extends Controller
 {
     /**
-     * @var Repository $permissionRepo
+     * @var PermissionRepository $permissionRepo
      */
     protected $permissionRepo;
 
     /**
-     * @var Repository $roleRepo
+     * @var RoleRepository $roleRepo
      */
     protected $roleRepo;
 
     /**
      * RolesController constructor.
      *
-     * @param Permission $permission
-     * @param Role $role
+     * @param PermissionRepository $permissionRepo
+     * @param RoleRepository $roleRepo
      */
-    public function __construct(Permission $permission, Role $role)
+    public function __construct(PermissionRepository $permissionRepo, RoleRepository $roleRepo)
     {
-        $this->permissionRepo = new Repository($permission);
-        $this->roleRepo = new Repository($role);
+        $this->permissionRepo = $permissionRepo;
+        $this->roleRepo = $roleRepo;
     }
 
     /**

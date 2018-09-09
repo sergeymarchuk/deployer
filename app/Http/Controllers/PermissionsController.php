@@ -1,8 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\Repository;
-use Spatie\Permission\Models\Permission;
+use App\Repositories\PermissionRepository;
 use App\Http\Requests\{StorePermissionsRequest, UpdatePermissionsRequest};
 
 /**
@@ -12,18 +11,18 @@ use App\Http\Requests\{StorePermissionsRequest, UpdatePermissionsRequest};
 class PermissionsController extends Controller
 {
     /**
-     * @var Repository $permissionRepo
+     * @var PermissionRepository $permissionRepo
      */
     protected $permissionRepo;
 
     /**
      * PermissionsController constructor.
      *
-     * @param Permission $permission
+     * @param PermissionRepository $permissionRepo
      */
-    public function __construct(Permission $permission)
+    public function __construct(PermissionRepository $permissionRepo)
     {
-        $this->permissionRepo = new Repository($permission);
+        $this->permissionRepo = $permissionRepo;
     }
 
     /**
