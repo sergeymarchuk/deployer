@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class Repository
  * @package App\Repositories
  */
-abstract class AbstractRepository implements RepositoryInterface
+abstract class AbstractRepository implements AbstractRepositoryInterface
 {
     // model property on class instances
     protected $model;

@@ -4,7 +4,7 @@
  * Interface RepositoryInterface
  * @package App\Repositories
  */
-interface RepositoryInterface
+interface AbstractRepositoryInterface
 {
     public function all();
 
