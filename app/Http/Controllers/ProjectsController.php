@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use App\Models\{
     Project, ProjectStatus, User
 };
@@ -56,7 +57,14 @@ class ProjectsController extends Controller
      */
     public function store(StoreProjectsRequest $request)
     {
-        $project = Project::create($request->except('deployer'));
+        $webhook = URL::to('/') . 'api/V1/' . str_replace(' ', '-', strtolower($request->input('title')));
+
+        $project = Project::create([
+            'title'             => $request->input('title'),
+            'path'              => $request->input('path'),
+            'project_status_id' => $request->input('project_status_id'),
+            'webhook'           => $webhook,
+        ]);
 
         if ($deployers = $request->input('deployer')) {
             $project->users()->sync($deployers);
