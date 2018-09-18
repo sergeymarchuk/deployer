@@ -57,13 +57,15 @@ class ProjectsController extends Controller
      */
     public function store(StoreProjectsRequest $request)
     {
-        $webhook = URL::to('/') . 'api/V1/' . str_replace(' ', '-', strtolower($request->input('title')));
+        $webhook = URL::to('/') . 'api' . DIRECTORY_SEPARATOR . 'V1' . DIRECTORY_SEPARATOR . str_random(16);
+        $hash    = md5($request->input('secret') . $webhook);
 
         $project = Project::create([
             'title'             => $request->input('title'),
             'path'              => $request->input('path'),
             'project_status_id' => $request->input('project_status_id'),
             'webhook'           => $webhook,
+            'hash'              => $hash,
         ]);
 
         if ($deployers = $request->input('deployer')) {
