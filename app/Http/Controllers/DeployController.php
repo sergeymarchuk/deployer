@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use App\Services\DeploymentService;
-use App\Models\Project;
+use App\Repositories\ProjectRepository;
 
 /**
  * Class ProjectsController
@@ -10,6 +10,21 @@ use App\Models\Project;
 class DeployController extends Controller
 {
     /**
+     * @var ProjectRepository $projectRepo
+     */
+    protected $projectRepo;
+
+    /**
+     * DeployController constructor.
+     *
+     * @param ProjectRepository $projectRepository
+     */
+    public function __construct(ProjectRepository $projectRepository)
+    {
+        $this->projectRepo = $projectRepository;
+    }
+
+    /**
      * Show project deploy page
      *
      * @param $id
@@ -17,7 +32,7 @@ class DeployController extends Controller
      */
     public function deployPage($id)
     {
-        $project = Project::findOrFail($id);
+        $project = $this->projectRepo->findOrFail($id);
         return view('deploy', compact('project'));
     }
 
@@ -31,7 +46,7 @@ class DeployController extends Controller
      */
     public function deployAction(int $id, string $action, DeploymentService $deployment)
     {
-        $project = Project::findOrFail($id);
+        $project = $this->projectRepo->findOrFail($id);
         return $deployment->runAction($project, $action);
     }
 }

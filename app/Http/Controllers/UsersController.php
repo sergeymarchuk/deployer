@@ -1,8 +1,7 @@
 <?php namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
+use App\Repositories\{RoleRepository, UserRepository};
 use App\Http\Requests\{StoreUsersRequest, UpdateUsersRequest};
 
 /**
@@ -12,13 +11,35 @@ use App\Http\Requests\{StoreUsersRequest, UpdateUsersRequest};
 class UsersController extends Controller
 {
     /**
+     * @var UserRepository $userRepo
+     */
+    protected $userRepo;
+
+    /**
+     * @var RoleRepository $roleRepo
+     */
+    protected $roleRepo;
+
+    /**
+     * UsersController constructor.
+     *
+     * @param UserRepository $userRepo
+     * @param RoleRepository $roleRepo
+     */
+    public function __construct(UserRepository $userRepo, RoleRepository $roleRepo)
+    {
+        $this->userRepo = $userRepo;
+        $this->roleRepo = $roleRepo;
+    }
+
+    /**
      * Display a listing of User.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $users = User::all();
+        $users = $this->userRepo->all();
 
         return view('users.index', compact('users'));
     }
@@ -30,7 +51,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        $roles = Role::get()->pluck('name', 'name');
+        $roles = $this->roleRepo->all()->pluck('name', 'name');
 
         return view('users.create', compact('roles'));
     }
@@ -43,7 +64,7 @@ class UsersController extends Controller
      */
     public function store(StoreUsersRequest $request)
     {
-        $user = User::create($request->all());
+        $user = $this->userRepo->create($request->all());
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->assignRole($roles);
 
@@ -59,9 +80,9 @@ class UsersController extends Controller
      */
     public function edit($id)
     {
-        $roles = Role::get()->pluck('name', 'name');
+        $roles = $this->roleRepo->all()->pluck('name', 'name');
 
-        $user = User::findOrFail($id);
+        $user = $this->userRepo->findOrFail($id);
 
         return view('users.edit', compact('user', 'roles'));
     }
@@ -75,7 +96,7 @@ class UsersController extends Controller
      */
     public function update(UpdateUsersRequest $request, $id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->userRepo->findOrFail($id);
         $user->update($request->all());
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->syncRoles($roles);
@@ -91,7 +112,7 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::findOrFail($id);
+        $user = $this->userRepo->findOrFail($id);
         $user->delete();
 
         return redirect()->route('users.index');
@@ -105,7 +126,7 @@ class UsersController extends Controller
     public function massDestroy(Request $request)
     {
         if ($request->input('ids')) {
-            $entries = User::whereIn('id', $request->input('ids'))->get();
+            $entries = $this->userRepo->getModel()->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();

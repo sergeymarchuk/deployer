@@ -1,7 +1,7 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\{Role, Permission};
+use App\Repositories\{RoleRepository, PermissionRepository};
 use App\Http\Requests\{StoreRolesRequest, UpdateRolesRequest};
 
 /**
@@ -11,13 +11,35 @@ use App\Http\Requests\{StoreRolesRequest, UpdateRolesRequest};
 class RolesController extends Controller
 {
     /**
+     * @var PermissionRepository $permissionRepo
+     */
+    protected $permissionRepo;
+
+    /**
+     * @var RoleRepository $roleRepo
+     */
+    protected $roleRepo;
+
+    /**
+     * RolesController constructor.
+     *
+     * @param PermissionRepository $permissionRepo
+     * @param RoleRepository $roleRepo
+     */
+    public function __construct(PermissionRepository $permissionRepo, RoleRepository $roleRepo)
+    {
+        $this->permissionRepo = $permissionRepo;
+        $this->roleRepo = $roleRepo;
+    }
+
+    /**
      * Display a listing of Role.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $roles = Role::all();
+        $roles = $this->roleRepo->all();
 
         return view('roles.index', compact('roles'));
     }
@@ -29,7 +51,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        $permissions = Permission::get()->pluck('name', 'name');
+        $permissions = $this->permissionRepo->all()->pluck('name', 'name');
 
         return view('roles.create', compact('permissions'));
     }
@@ -42,7 +64,7 @@ class RolesController extends Controller
      */
     public function store(StoreRolesRequest $request)
     {
-        $role = Role::create($request->except('permission'));
+        $role = $this->roleRepo->create($request->except('permission'));
         $permissions = $request->input('permission') ? $request->input('permission') : [];
         $role->givePermissionTo($permissions);
 
@@ -58,8 +80,8 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        $permissions = Permission::get()->pluck('name', 'name');
-        $role = Role::findOrFail($id);
+        $permissions = $this->permissionRepo->all()->pluck('name', 'name');
+        $role = $this->roleRepo->findOrFail($id);
 
         return view('roles.edit', compact('role', 'permissions'));
     }
@@ -73,7 +95,7 @@ class RolesController extends Controller
      */
     public function update(UpdateRolesRequest $request, $id)
     {
-        $role = Role::findOrFail($id);
+        $role = $this->roleRepo->findOrFail($id);
         $role->update($request->except('permission'));
         $permissions = $request->input('permission') ? $request->input('permission') : [];
         $role->syncPermissions($permissions);
@@ -90,7 +112,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        $role = Role::findOrFail($id);
+        $role = $this->roleRepo->findOrFail($id);
         $role->delete();
 
         return redirect()->route('roles.index');
@@ -104,7 +126,7 @@ class RolesController extends Controller
     public function massDestroy(Request $request)
     {
         if ($request->input('ids')) {
-            $entries = Role::whereIn('id', $request->input('ids'))->get();
+            $entries = $this->roleRepo->getModel()->whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
