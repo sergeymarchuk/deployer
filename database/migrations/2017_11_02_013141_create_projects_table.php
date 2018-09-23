@@ -16,8 +16,6 @@ class CreateProjectsTable extends Migration
             $table->increments('id');
             $table->string('title');
             $table->string('path');
-            $table->string('webhook')->unique();
-            $table->string('hash');
             $table->integer('project_status_id')->unsigned()->nullable();
             $table->foreign('project_status_id', 'fk_12_projectstatus_project_status_id_project')->references('id')->on('project_statuses');
             $table->timestamp('deployed_at')->nullable();
