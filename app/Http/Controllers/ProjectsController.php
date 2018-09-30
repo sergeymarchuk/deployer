@@ -1,7 +1,10 @@
 <?php namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\{ProjectRepository, ProjectStatusRepository, UserRepository};
+use Illuminate\Support\Facades\URL;
+use App\Models\{
+    Project, ProjectStatus, User
+};
 use App\Http\Requests\{StoreProjectsRequest,UpdateProjectsRequest};
 
 /**
@@ -11,39 +14,14 @@ use App\Http\Requests\{StoreProjectsRequest,UpdateProjectsRequest};
 class ProjectsController extends Controller
 {
     /**
-     * @var ProjectRepository $projectRepository
-     */
-    protected $projectRepo;
-
-    /**
-     * @var ProjectStatusRepository $projectStatusRepository
-     */
-    protected $projectStatusRepo;
-
-    /**
-     * @var UserRepository $userRepository
-     */
-    protected $userRepo;
-
-    /**
      * ProjectsController constructor.
-     *
-     * @param ProjectRepository $projectRepo
-     * @param ProjectStatusRepository $projectStatusRepo
-     * @param UserRepository $userRepo
      */
-    public function __construct(
-        ProjectRepository $projectRepo,
-        ProjectStatusRepository $projectStatusRepo,
-        UserRepository $userRepo)
+    public function __construct()
     {
         // Allow just view of projects
         $this->middleware('can:projects_manage', [
             'except' => ['index']
         ]);
-        $this->projectRepo = $projectRepo;
-        $this->projectStatusRepo = $projectStatusRepo;
-        $this->userRepo = $userRepo;
     }
 
     /**
@@ -53,7 +31,7 @@ class ProjectsController extends Controller
      */
     public function index()
     {
-        $projects = $this->projectRepo->all();
+        $projects = Project::all();
 
         return view('projects.index', compact('projects'));
     }
@@ -65,8 +43,8 @@ class ProjectsController extends Controller
      */
     public function create()
     {
-        $projectStatuses = $this->projectStatusRepo->all()->pluck('title', 'id')->prepend('Please select', '');
-        $users = $this->userRepo->all()->pluck('name', 'id');
+        $projectStatuses = ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', '');
+        $users = User::get()->pluck('name', 'id');
 
         return view('projects.create', compact('projectStatuses', 'users'));
     }
@@ -79,7 +57,18 @@ class ProjectsController extends Controller
      */
     public function store(StoreProjectsRequest $request)
     {
-        $project = $this->projectRepo->create($request->except('deployer'));
+        $slug = str_random(16);
+        $webhook = URL::to('/') . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'V1' . DIRECTORY_SEPARATOR . $slug;
+        $hash    = sha1($request->input('secret'));
+
+        $project = Project::create([
+            'title'             => $request->input('title'),
+            'path'              => $request->input('path'),
+            'project_status_id' => $request->input('project_status_id'),
+            'webhook'           => $webhook,
+            'hash'              => $hash,
+            'slug'              => $slug,
+        ]);
 
         if ($deployers = $request->input('deployer')) {
             $project->users()->sync($deployers);
@@ -97,9 +86,9 @@ class ProjectsController extends Controller
      */
     public function edit($id)
     {
-        $projectStatuses = $this->projectStatusRepo->all()->pluck('title', 'id')->prepend('Please select', '');
-        $project = $this->projectRepo->findOrFail($id);
-        $users = $this->userRepo->all()->pluck('name', 'id');
+        $projectStatuses = ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', '');
+        $project = Project::findOrFail($id);
+        $users = User::get()->pluck('name', 'id');
 
         return view('projects.edit', compact('projectStatuses', 'project', 'users'));
     }
@@ -113,7 +102,7 @@ class ProjectsController extends Controller
      */
     public function update(UpdateProjectsRequest $request, $id)
     {
-        $project = $this->projectRepo->findOrFail($id);
+        $project = Project::findOrFail($id);
         $project->update($request->all());
 
         if ($deployers = $request->input('deployer')) {
@@ -132,12 +121,12 @@ class ProjectsController extends Controller
     public function show($id)
     {
         $relations = [
-            'project_statuses' => $this->projectStatusRepo->all()->pluck('title', 'id')->prepend('Please select', ''),
+            'project_statuses' => ProjectStatus::get()->pluck('title', 'id')->prepend('Please select', ''),
         ];
 
-        $project = $this->projectRepo->findOrFail($id);
+        $project = Project::findOrFail($id);
 
-        return view('projects.show', compact('project') + $relations);
+        return view('projects.show', ['project' => $project] + $relations);
     }
 
     /**
@@ -148,7 +137,7 @@ class ProjectsController extends Controller
      */
     public function destroy($id)
     {
-        $project = $this->projectRepo->findOrFail($id);
+        $project = Project::findOrFail($id);
         $project->delete();
 
         return redirect()->route('projects.index');
@@ -162,7 +151,7 @@ class ProjectsController extends Controller
     public function massDestroy(Request $request)
     {
         if ($request->input('ids')) {
-            $entries = $this->projectRepo->getModel()->whereIn('id', $request->input('ids'))->get();
+            $entries = Project::whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();
