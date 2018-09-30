@@ -81,7 +81,7 @@ class ProjectsController extends Controller
     public function store(StoreProjectsRequest $request)
     {
         $slug = str_random(16);
-        $webhook = URL::to('/') . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'V1' . DIRECTORY_SEPARATOR . $slug;
+        $webhook = URL::to('/') . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'v1' . DIRECTORY_SEPARATOR . $slug;
         $hash    = sha1($request->input('secret'));
 
         $project = $this->projectRepo->create([
