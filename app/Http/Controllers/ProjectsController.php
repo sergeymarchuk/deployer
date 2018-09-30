@@ -57,8 +57,9 @@ class ProjectsController extends Controller
      */
     public function store(StoreProjectsRequest $request)
     {
-        $webhook = URL::to('/') . 'api' . DIRECTORY_SEPARATOR . 'V1' . DIRECTORY_SEPARATOR . str_random(16);
-        $hash    = md5($request->input('secret') . $webhook);
+        $slug = str_random(16);
+        $webhook = URL::to('/') . DIRECTORY_SEPARATOR . 'api' . DIRECTORY_SEPARATOR . 'V1' . DIRECTORY_SEPARATOR . $slug;
+        $hash    = sha1($request->input('secret'));
 
         $project = Project::create([
             'title'             => $request->input('title'),
@@ -66,6 +67,7 @@ class ProjectsController extends Controller
             'project_status_id' => $request->input('project_status_id'),
             'webhook'           => $webhook,
             'hash'              => $hash,
+            'slug'              => $slug,
         ]);
 
         if ($deployers = $request->input('deployer')) {
@@ -124,7 +126,7 @@ class ProjectsController extends Controller
 
         $project = Project::findOrFail($id);
 
-        return view('projects.show', compact('project') + $relations);
+        return view('projects.show', ['project' => $project] + $relations);
     }
 
     /**

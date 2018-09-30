@@ -1,6 +1,9 @@
 <?php
 
 // route for github webhook api
-Route::group(['prefix' => '/v1', 'namespace' => 'API\V1', 'as' => 'api.'], function () {
-    Route::post('webhook/{slug}', 'WebhookController@runDeploy');
+//Route::post('test', 'WebhookController@runDeploy');
+Route::group(['prefix' => 'v2', 'as' => 'api.'], function () {
 });
+
+Route::post('/v2/{slug}', 'WebhookController@runDeploy');
+
