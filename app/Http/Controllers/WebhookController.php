@@ -1,11 +1,9 @@
 <?php namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Http\Controllers\DeployController;
-use App\Http\Controllers\Controller;
+use App\Repositories\ProjectRepository;
 use App\Services\DeploymentService;
 use Illuminate\Http\Request;
-
 
 /**
  * Class WebhookController
@@ -13,13 +11,28 @@ use Illuminate\Http\Request;
  */
 class WebhookController extends Controller {
 
-    const GITHUB_EVENT = 'pull_request';
+    /**
+     * @var ProjectRepository $projectRepository
+     */
+    protected $projectRepo;
+
+    /**
+     * ProjectsController constructor.
+     *
+     * @param ProjectRepository $projectRepo
+     */
+    public function __construct(ProjectRepository $projectRepo)
+    {
+        $this->projectRepo = $projectRepo;
+    }
 
     /**
      * Run deployment process if was pull request to github repo
      *
-     * @param $request
+     * @param Request $request
+     * @param DeploymentService $deployment
      * @param $slug
+     * @return mixed|string
      */
     public function runDeploy(Request $request, DeploymentService $deployment,$slug) {
         $project = Project::where('slug', $slug)->first();
@@ -31,10 +44,13 @@ class WebhookController extends Controller {
 
         //TODO get hashed key from X-Hub-Signature header and check with data base secret field
         $hash = $request->header('X-Hub-Signature');
-        $event = $request->header('X-GitHub-Event');
 
-        if (($hash == 'sha1=' . $project->hash) && $event == self::GITHUB_EVENT) {
-            return $deployment->runAction($project, 'artisan-migrate');
+        if (($hash == 'sha1=' . $project->hash)) {
+            return $deployment->runAction($project, 'git-pull');
         }
+
+        return $deployment->runAction($project, 'git-pull');
+
+        //return ['Hook not found'];
     }
 }
