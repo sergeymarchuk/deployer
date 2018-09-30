@@ -1,6 +1,5 @@
 <?php namespace App\Http\Controllers;
 
-use App\Models\Project;
 use App\Repositories\ProjectRepository;
 use App\Services\DeploymentService;
 use Illuminate\Http\Request;
@@ -35,7 +34,7 @@ class WebhookController extends Controller {
      * @return mixed|string
      */
     public function runDeploy(Request $request, DeploymentService $deployment,$slug) {
-        $project = Project::where('slug', $slug)->first();
+        $project = $this->projectRepo->getModel()->where('slug', $slug)->first();
 
         if (!$project) {
             //return response to github
