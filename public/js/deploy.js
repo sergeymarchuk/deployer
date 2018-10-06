@@ -3,7 +3,7 @@ $(document).ready(function() {
         // Disable deploy buttons
         $(".deploy-start").attr("disabled", true);
         $(".deploy-clear").click();
-        checkAndRun({'status': 'ok', 'message': '', 'next': 'gitPull', 'prev': null});
+        checkAndRun({'status': 'OK', 'message': '', 'next': 'gitPull', 'prev': null});
     });
 
     // Clear fields
@@ -26,7 +26,7 @@ function remoteRequest(url) {
 }
 
 function checkAndRun(data) {
-    if (data.status === 'ok') {
+    if (data.status === 'OK') {
         if (data.prev) {
             lines = data.message.split('\n');
             $('#' + data.prev).val(data.message).attr('rows', lines.length-1);
