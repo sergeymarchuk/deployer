@@ -15,7 +15,7 @@ class AddHashWebhookToProjectsTable extends Migration
     {
         Schema::table('projects', function (Blueprint $table) {
             $table->string('webhook')->unique()->after('project_status_id');
-            $table->string('slug', 16)->after('webhook');
+            $table->string('slug')->after('webhook');
         });
     }
 
