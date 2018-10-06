@@ -48,19 +48,6 @@
 
             <div class="row">
                 <div class="col-xs-12 form-group">
-                    {!! Form::label('secret', 'Secret for GitHub Webhook:', ['class' => 'control-label']) !!}
-                    {!! Form::password('secret', ['class' => 'form-control', 'placeholder' => 'min 5 chars']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('secret'))
-                        <p class="help-block">
-                            {{ $errors->first('secret') }}
-                        </p>
-                    @endif
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12 form-group">
                     {!! Form::label('deployer', 'Deployers', ['class' => 'control-label']) !!}
                     {!! Form::select('deployer[]', $users, old('deployer'), ['class' => 'form-control select2', 'multiple' => 'multiple']) !!}
                     <p class="help-block"></p>
