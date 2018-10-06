@@ -2,7 +2,7 @@
 
 use App\Repositories\ProjectRepository;
 use App\Services\DeploymentService;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class WebhookController
@@ -28,28 +28,28 @@ class WebhookController extends Controller {
     /**
      * Run deployment process if was pull request to github repo
      *
-     * @param Request $request
      * @param DeploymentService $deployment
      * @param $slug
      * @return mixed|string
      */
-    public function runDeploy(Request $request, DeploymentService $deployment,$slug) {
+    public function runDeploy(DeploymentService $deployment, $slug) {
+
         $project = $this->projectRepo->getModel()->where('slug', $slug)->first();
 
         if (!$project) {
-            //return response to github
             abort(404);
         }
 
-        //TODO get hashed key from X-Hub-Signature header and check with data base secret field
-        $hash = $request->header('X-Hub-Signature');
+        //$github = $request->header('X-Hub-Signature');
+        //$bitbucket = $request->header('X-Request-UUID');
 
-        if (($hash == 'sha1=' . $project->hash)) {
-            return $deployment->runAction($project, 'git-pull');
+        foreach (DeploymentService::COMMANDS as $command => $value) {
+            $status = $deployment->runAction($project, $command, 'text');
+            if ($status == DeploymentService::STATUS_ERROR) {
+                Log::warning($command. ' ' .$status);
+                break;
+            }
         }
-
-        return $deployment->runAction($project, 'git-pull');
-
-        //return ['Hook not found'];
+        return [];
     }
 }

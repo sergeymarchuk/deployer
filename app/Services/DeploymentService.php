@@ -10,6 +10,8 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
  */
 class DeploymentService
 {
+    const STATUS_OK = 'OK';
+    const STATUS_ERROR = 'ERROR';
     const COMMANDS = [
         'git-pull' => 'git pull',
         'composer-install' => 'composer install',
@@ -19,9 +21,10 @@ class DeploymentService
     /**
      * @param Project $project
      * @param string $action
-     * @return mixed|string
+     * @param string $response
+     * @return \Illuminate\Http\JsonResponse|string
      */
-    public function runAction(Project $project, string $action)
+    public function runAction(Project $project, string $action, string $response = 'jsonp')
     {
         //TODO: Check if path exists and artisan file
 
@@ -33,10 +36,17 @@ class DeploymentService
             $text = ($process instanceof Process) ?
                 $process->mustRun()->getOutput() :
                 $process->run();
-            return $this->jsonResponse($text, 'ok');
+            $status = self::STATUS_OK;
         } catch (ProcessFailedException $exception) {
-            return $this->jsonResponse($exception->getMessage(), 'error');
+            $text = $exception->getMessage();
+            $status = self::STATUS_ERROR;
         }
+
+        if ($response == 'jsonp') {
+            return $this->jsonResponse($text, $status);
+        }
+
+        return $status;
     }
 
     /**
