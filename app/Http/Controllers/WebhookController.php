@@ -43,13 +43,16 @@ class WebhookController extends Controller {
         //$github = $request->header('X-Hub-Signature');
         //$bitbucket = $request->header('X-Request-UUID');
 
+        $response = [];
         foreach (DeploymentService::COMMANDS as $command => $value) {
             $status = $deployment->runAction($project, $command, 'text');
             if ($status == DeploymentService::STATUS_ERROR) {
                 Log::warning($command. ' ' .$status);
+                $response[$command] = $status;
                 break;
             }
+            $response[$command] = $status;
         }
-        return [];
+        return $response;
     }
 }
