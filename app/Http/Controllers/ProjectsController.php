@@ -85,7 +85,7 @@ class ProjectsController extends Controller
             'title'             => $request->input('title'),
             'path'              => $request->input('path'),
             'project_status_id' => $request->input('project_status_id'),
-            'webhook'           => URL::to('/').'/api/v1/'.$slug,
+            'webhook'           => route('api.webhook', compact('slug')),
             'slug'              => $slug
         ]);
 
