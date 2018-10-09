@@ -31,6 +31,7 @@
                     @endif
                 </div>
             </div>
+
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('project_status_id', 'Project status*', ['class' => 'control-label']) !!}
@@ -43,6 +44,20 @@
                     @endif
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('webhook', 'Webhook:', ['class' => 'control-label']) !!}
+                    {!! Form::text('webhook', old('webhook'), ['class' => 'form-control', 'placeholder' => '/...', 'readonly' => 'readonly']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('path'))
+                        <p class="help-block">
+                            {{ $errors->first('webhook') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+
             <div class="row">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('deployer', 'Deployers', ['class' => 'control-label']) !!}

@@ -6,15 +6,19 @@ use Illuminate\Database\Eloquent\Model;
  * Class Repository
  * @package App\Repositories
  */
-class Repository implements RepositoryInterface
+abstract class AbstractRepository implements AbstractRepositoryInterface
 {
     // model property on class instances
     protected $model;
 
-    // Constructor to bind model to repo
-    public function __construct(Model $model)
+    /**
+     * @param Model $model
+     * @return $this
+     */
+    public function setModel(Model $model)
     {
         $this->model = $model;
+        return $this;
     }
 
     // Get all instances of model
@@ -53,13 +57,6 @@ class Repository implements RepositoryInterface
     {
         return $this->model;
     }
-
-    // Set the associated model
-//    public function setModel($model)
-//    {
-//        $this->model = $model;
-//        return $this;
-//    }
 
     // Eager load database relationships
     public function with($relations)
