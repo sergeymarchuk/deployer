@@ -2,10 +2,6 @@
 
 This is a Laravel 5.6 deployer starter project with roles-permissions management based on [Spatie Laravel-permission package](https://github.com/spatie/laravel-permission), [AdminLTE theme](https://adminlte.io/) and [Datatables.net](https://datatables.net).
 
-Part of this project was generated automatically by [QuickAdminPanel system](https://quickadminpanel.com/).
-
-![Larancer screenshot](http://webcoderpro.com/roles-permissions-manager-spatie.png)
-
 ## Usage
 
 This is full Laravel project that you should use as a deployer boilerplate, and then add your own custom functionality.
