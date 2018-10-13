@@ -34,7 +34,7 @@ class DeploymentService
 
         try {
 
-            if ($action == 'artisan migrate') {
+            if ($action == 'artisan-migrate') {
                 $options = $this->getOptions(['--force' => true]);
                 $text = $this->run($project->path, self::COMMANDS[$action], $options);
             } else {
